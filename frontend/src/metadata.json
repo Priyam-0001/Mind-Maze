@@ -1,0 +1,8 @@
+
+{
+  "name": "MindMaze 3.0",
+  "description": "A high-stakes puzzle competition platform featuring multi-modal challenges (audio, video, images, QR) and a real-time leaderboard, styled in a sleek black and orange aesthetic.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
