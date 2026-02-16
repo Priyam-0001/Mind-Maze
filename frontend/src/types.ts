@@ -21,6 +21,7 @@ export interface Team {
   email: string;
   score: number;
   solvedIds: string[];
+  accessCode?: string; // optional
 }
 
 export interface LeaderboardEntry {

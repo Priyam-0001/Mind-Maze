@@ -14,13 +14,21 @@ const handleResponse = async (response: Response) => {
 
 export const api = {
   // Authentication / Registration
-  login: async (name: string, email: string): Promise<{ team: Team, token: string }> => {
-    return handleResponse(await fetch(`${API_BASE_URL}/teams/login`, {
+  login: async (email: string, accessCode: string) => {
+    const res = await fetch('http://localhost:5000/api/teams/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email }),
-    }));
+      body: JSON.stringify({ email, accessCode }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Login failed');
+    }
+
+    return res.json(); // { team, token }
   },
+
 
   // Get all quests (usually returns metadata, not the answers)
   getQuests: async (token: string): Promise<Quest[]> => {

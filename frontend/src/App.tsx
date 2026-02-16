@@ -47,12 +47,14 @@ const App: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const name = formData.get('teamName') as string;
+
     const email = formData.get('email') as string;
+    const accessCode = formData.get('accessCode') as string;
 
     try {
       setLoading(true);
-      const data = await api.login(name, email);
+      const data = await api.login(email, accessCode);
+
       setTeam(data.team);
       setToken(data.token);
       localStorage.setItem('mindmaze_token', data.token);
@@ -64,6 +66,7 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
+
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -96,15 +99,18 @@ const App: React.FC = () => {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-2 px-1">Team Name</label>
+              <label className="block text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-2 px-1">
+                Access Code
+              </label>
               <input 
-                name="teamName"
+                name="accessCode"
                 type="text" 
                 required
                 className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
-                placeholder="Ex: Cyber Wolves"
+                placeholder="MMZ-XXXX-XX"
               />
             </div>
+
             <div>
               <label className="block text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-2 px-1">Email</label>
               <input 

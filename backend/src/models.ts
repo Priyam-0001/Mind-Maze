@@ -6,12 +6,14 @@ import type { ContentType, Hint } from './types.js';
 export interface ITeam extends Document {
   name: string;
   email: string;
+  accessCode: string;
   score: number;
   solvedIds: string[];
 }
 
 const TeamSchema: Schema = new Schema({
   name: { type: String, required: true },
+  accessCode: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   score: { type: Number, default: 0 },
   solvedIds: [{ type: String }]

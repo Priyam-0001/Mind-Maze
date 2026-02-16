@@ -16,6 +16,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mindma
 // Fix: Cast cors() as any to bypass type mismatch with Express application overloads
 app.use(cors() as any);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware to verify JWT
 // Fix: Changed res type to any to fix errors where status() and json() were not found
@@ -34,23 +35,63 @@ const authenticateToken = (req: any, res: any, next: NextFunction) => {
 
 // Routes
 
+// Admin: Create team with access code
+app.post('/api/teams/create', async (req: any, res: any) => {
+  const { name, email, accessCode } = req.body;
+
+  try {
+    const existing = await TeamModel.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ message: 'Team already exists' });
+    }
+
+    const team = new TeamModel({
+      name,
+      email,
+      accessCode,
+      score: 0,
+      solvedIds: []
+    });
+
+    await team.save();
+
+    res.status(201).json({ message: 'Team created', team });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error creating team' });
+  }
+});
+
+
 // 1. Team Login / Registration
 // Fix: Used any for req and res to correctly access .body, .status(), and .json()
 app.post('/api/teams/login', async (req: any, res: any) => {
-  const { name, email } = req.body;
+  const { email, accessCode } = req.body;
+
   try {
-    let team = await TeamModel.findOne({ email });
+    const team = await TeamModel.findOne({ email });
     if (!team) {
-      team = new TeamModel({ name, email, score: 0, solvedIds: [] });
-      await team.save();
+      return res.status(401).json({ message: 'Invalid email or access code' });
     }
-    
-    const token = jwt.sign({ id: team._id, email: team.email }, JWT_SECRET, { expiresIn: '24h' });
+
+    if (team.accessCode !== accessCode) {
+      return res.status(401).json({ message: 'Invalid email or access code' });
+    }
+
+    const token = jwt.sign(
+      { id: team._id, email: team.email },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
     res.json({ team, token });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
+
 
 // 2. Get All Quests (Excludes answers for security)
 // Fix: Changed req and res to any to satisfy TypeScript compiler
