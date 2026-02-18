@@ -30,21 +30,21 @@ const Leaderboard: React.FC<{ userTeam: { name: string, score: number, solvedIds
   }
 
   return (
-    <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl">
+    <div className="bg-[#161616] border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl">
       <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-zinc-800">
-            <th className="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Rank</th>
-            <th className="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Team Name</th>
-            <th className="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Sectors Cleared</th>
-            <th className="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Total XP</th>
+          <tr className="border-b border-[#696969] text-md text-zinc-400">
+            <th className="px-6 py-4 font-bold uppercase tracking-widest">Rank</th>
+            <th className="px-6 py-4 font-bold uppercase tracking-widest">Team Name</th>
+            <th className="px-6 py-4 font-bold uppercase tracking-widest">Sectors Cleared</th>
+            <th className="px-6 py-4 font-bold uppercase tracking-widest">Total XP</th>
           </tr>
         </thead>
         <tbody>
           {rankings.map((entry) => (
             <tr 
               key={entry.teamName} 
-              className={`border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors ${
+              className={`border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors text-xl ${
                 entry.teamName === userTeam.name ? 'bg-orange-500/10' : ''
               }`}
             >
@@ -61,12 +61,15 @@ const Leaderboard: React.FC<{ userTeam: { name: string, score: number, solvedIds
                 <div className="flex items-center gap-3">
                   {entry.teamName}
                   {entry.teamName === userTeam.name && (
-                    <span className="text-[10px] text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/30 uppercase tracking-tighter">Current Team</span>
+                    <span className="text-md text-orange-500 bg-orange-500/10 px-2 py-0.5 
+                    rounded border border-orange-500/30 uppercase tracking-tighter">
+                      Current Team
+                    </span>
                   )}
                 </div>
               </td>
               <td className="px-6 py-6 text-zinc-400 font-mono">{entry.solvedCount}</td>
-              <td className="px-6 py-6 text-orange-500 font-bold text-lg">{entry.score.toLocaleString()}</td>
+              <td className="px-6 py-6 text-orange-500 font-bold text-xl">{entry.score.toLocaleString()}</td>
             </tr>
           ))}
           {rankings.length === 0 && (

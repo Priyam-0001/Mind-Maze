@@ -20,6 +20,7 @@ const App: React.FC = () => {
     score: 0,
     solvedIds: []
   });
+  const [isContactModel, setisContactModel] = useState(false);
 
   // Fetch team info and quests if token exists
   useEffect(() => {
@@ -84,7 +85,9 @@ const App: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div style={{ backgroundImage: 'url(/login.jpg)'}}
+      className={`min-h-screen flex items-center justify-center p-4
+      bg-cover bg-center h-screen`}>
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
             <div className="absolute top-10 left-10 text-zinc-700 select-none pixel-font text-8xl opacity-10 rotate-12">PUZZLE</div>
             <div className="absolute bottom-20 right-20 text-zinc-700 select-none pixel-font text-8xl opacity-10 -rotate-12">MAZE</div>
@@ -94,12 +97,13 @@ const App: React.FC = () => {
         <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-2xl relative z-10 backdrop-blur-sm">
           <div className="text-center mb-8">
             <h1 className="text-4xl pixel-font text-orange-500 orange-glow mb-2">MINDMAZE 3.0</h1>
-            <p className="text-zinc-500 font-semibold tracking-widest uppercase text-sm">Enter the Labyrinth</p>
+            <p className="text-zinc-500 font-semibold tracking-widest uppercase text-sm brightness-150">Enter the Labyrinth</p>
+            <p className="text-zinc-500 font-semibold tracking-widest text-md lg:mt-[2vh] brightness-150">Login with provided credentials</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-2 px-1">
+              <label className="block text-zinc-400 text-sm font-bold uppercase tracking-widest mb-2 px-1">
                 Access Code
               </label>
               <input 
@@ -112,7 +116,7 @@ const App: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-2 px-1">Email</label>
+              <label className="block text-zinc-400 text-sm font-bold uppercase tracking-widest mb-2 px-1">Email</label>
               <input 
                 name="email"
                 type="email" 
@@ -124,18 +128,61 @@ const App: React.FC = () => {
             <button 
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-4 rounded-xl transition-all duration-300 transform active:scale-95 shadow-[0_0_20px_rgba(234,88,12,0.3)] disabled:opacity-50"
+              className="w-full bg-orange-600 hover:bg-orange-500 text-black font-bold py-4 rounded-xl 
+              transition-all duration-300 transform active:scale-95 shadow-[0_0_20px_rgba(234,88,12,0.3)] 
+              disabled:opacity-50 hover:text-[#FFFFF0]"
             >
               {loading ? 'SYNCHRONIZING...' : 'INITIALIZE CONNECTION'}
             </button>
           </form>
+          <button onClick ={() => setisContactModel((v: boolean) => !v)}
+          className="text-zinc-500 font-semibold tracking-widest text-md
+          hover:underline brightness-150">
+            Forgot password? Click here to call Admins!
+          </button>
         </div>
+
+        {isContactModel && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            {/* backdrop */}
+            <div
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={() => setisContactModel(false)}
+            />
+
+            {/* modal */}
+            <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-[90%] max-w-md shadow-2xl">
+              <h3 className="text-2xl font-bold text-orange-500 mb-3">
+                Contact Admins
+              </h3>
+
+              <p className="text-zinc-400 mb-6 text-md">
+                Please contact the following event administrators to recover your access:
+              </p>
+              <ul className="text-center">
+                <li>{"<NUMBER 1>"}</li>
+                <li>{"<NUMBER 2>"}</li>
+              </ul>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setisContactModel(false)}
+                  className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-black text-white">
+    <div className="flex min-h-screen bg-[#111211] text-white">
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -149,18 +196,18 @@ const App: React.FC = () => {
             <h2 className="text-3xl font-bold text-white mb-1">
               {activeTab === 'quests' ? 'Active Quests' : 'Competition Ranking'}
             </h2>
-            <p className="text-zinc-500 font-medium">
+            <p className="text-zinc-500 text-2xl">
               {activeTab === 'quests' ? 'Decrypt and dominate the leaderboard' : 'Global standing of all teams'}
             </p>
           </div>
           
           <div className="flex gap-4">
-             <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl px-6 py-3 text-right">
-                <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Total Points</p>
+             <div className="bg-zinc-900/50 border border-zinc-600 rounded-2xl px-6 py-3 text-right">
+                <p className="text-zinc-400 text-md font-bold uppercase tracking-widest">Total Points</p>
                 <p className="text-2xl font-bold text-orange-500">{team.score.toLocaleString()}</p>
              </div>
-             <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl px-6 py-3 text-right">
-                <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Solved</p>
+             <div className="bg-zinc-900/50 border border-zinc-600 rounded-2xl px-6 py-3 text-right">
+                <p className="text-zinc-400 text-md font-bold uppercase tracking-widest">Solved</p>
                 <p className="text-2xl font-bold text-white">{team.solvedIds.length} / {quests.length}</p>
              </div>
           </div>

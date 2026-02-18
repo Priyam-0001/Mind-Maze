@@ -23,27 +23,27 @@ const QuestGrid: React.FC<QuestGridProps> = ({ quests, team, onSelectQuest }) =>
                 : 'bg-zinc-900/40 border-zinc-800 hover:border-orange-500/50'
             }`}
           >
-            <div className="flex justify-between items-start mb-4">
-              <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${
+            <div className="flex justify-between items-start text-md mb-4">
+              <span className={`px-2 py-1 rounded font-bold uppercase tracking-widest ${
                 isSolved ? 'bg-green-500/20 text-green-500' : 'bg-orange-500/20 text-orange-500'
               }`}>
                 Sector {quest.id}
               </span>
-              <span className="text-zinc-500 text-xs font-bold">{quest.points} PTS</span>
+              <span className="text-zinc-400 font-bold">{quest.points} PTS</span>
             </div>
             
-            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-orange-500 transition-colors">
+            <h3 className="text-3xl font-bold text-[#EFEFEF] mb-2 group-hover:text-orange-500 transition-colors">
               {quest.title}
             </h3>
             
-            <div className="flex items-center gap-2 mt-4 text-zinc-500 text-xs">
+            <div className="flex items-center gap-2 mt-4 text-zinc-400 text-md">
               <span className="uppercase tracking-widest">{quest.type}</span>
               <span className="w-1 h-1 rounded-full bg-zinc-700"></span>
-              <span>{quest.hints.length} Intelligence Fragments</span>
+              <span>{quest.hints.length} Intelligence Fragment(s)</span>
             </div>
 
             {isSolved && (
-              <div className="mt-4 flex items-center gap-2 text-green-500 text-xs font-bold uppercase tracking-widest">
+              <div className="mt-4 flex items-center gap-2 text-green-500 text-md font-bold uppercase tracking-widest">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>

@@ -54,22 +54,22 @@ const QuestDetail: React.FC<QuestDetailProps> = ({ token, quest, onBack, onSolve
     <div className="max-w-4xl mx-auto animate-fade-in">
       <button 
         onClick={onBack}
-        className="flex items-center gap-2 text-zinc-500 hover:text-orange-500 transition-colors mb-6 group"
+        className="flex items-center gap-2 text-zinc-400 hover:text-orange-500 transition-colors mb-6 group"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        <span className="font-bold uppercase tracking-widest text-xs">Return to Grid</span>
+        <span className="font-bold uppercase tracking-widest text-lg">Return to Grid</span>
       </button>
 
       <div className="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl">
         <div className="p-8 border-b border-zinc-800 flex justify-between items-center">
           <div>
-            <span className="text-orange-500 font-bold text-xs uppercase tracking-[0.3em] mb-2 block">Mission Objective</span>
+            <span className="text-orange-500 font-bold text-md uppercase tracking-[0.3em] mb-2 block">Mission Objective</span>
             <h1 className="text-4xl font-black text-white">{quest.title}</h1>
           </div>
           <div className="text-right">
-            <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Potential</p>
+            <p className="text-zinc-500 text-md font-bold uppercase tracking-widest mb-1">Potential</p>
             <p className="text-2xl font-mono text-orange-500">+{quest.points} XP</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ const QuestDetail: React.FC<QuestDetailProps> = ({ token, quest, onBack, onSolve
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-zinc-400 font-bold text-xs uppercase tracking-widest">Submit Findings</h3>
+            <h3 className="text-zinc-500 font-bold text-lg uppercase tracking-widest">Submit Findings</h3>
             <form onSubmit={handleSubmit} className="flex gap-4">
               <input
                 disabled={isSolved || submitting}
@@ -100,22 +100,25 @@ const QuestDetail: React.FC<QuestDetailProps> = ({ token, quest, onBack, onSolve
                 </button>
               )}
             </form>
-            {error && <p className="text-red-500 text-xs font-bold animate-pulse uppercase tracking-widest">Error: Access Denied. Key rejected.</p>}
-            {isSolved && <p className="text-green-500 text-xs font-bold uppercase tracking-widest">Signal Authenticated: XP Transferred.</p>}
+            {error && <p className="text-red-500 text-md font-bold animate-pulse uppercase tracking-widest">Error: Access Denied. Key rejected.</p>}
+            {isSolved && <p className="text-green-500 text-md font-bold uppercase tracking-widest">Signal Authenticated: XP Transferred.</p>}
           </div>
 
           <div className="pt-8 border-t border-zinc-900 flex flex-col gap-6">
              <div className="flex justify-between items-center">
                 <button 
                   onClick={() => setShowHints(!showHints)}
-                  className="text-zinc-500 hover:text-zinc-200 text-xs font-bold uppercase tracking-widest flex items-center gap-2"
+                  className="text-zinc-400 hover:text-zinc-200 text-md font-bold uppercase tracking-widest flex items-center gap-2"
                 >
                   {showHints ? 'Hide' : 'Reveal'} Intelligence Fragments ({quest.hints.length})
                 </button>
                 <button 
                    onClick={handleRequestAiHint}
                    disabled={loadingAi}
-                   className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/5 border border-orange-500/20 text-orange-500 hover:bg-orange-500/10 transition-colors text-xs font-bold uppercase tracking-widest disabled:opacity-50"
+                   className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/5 
+                   border border-orange-500/20 text-orange-500 hover:bg-orange-500/10 
+                   transition-colors text-md font-bold uppercase tracking-widest 
+                   disabled:opacity-50"
                 >
                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.364-6.364l-.707-.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5z" />
